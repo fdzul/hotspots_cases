@@ -1,20 +1,21 @@
 
+# Step 1. load the geocode dataset  with bachgeo ####
+xy <- readxl::read_xlsx("/Users/fdzul/Library/CloudStorage/OneDrive-Personal/proyects/geocoding_mex/Casos_2023_Nacional.xlsx")
+xy <- xy |>
+    dplyr::mutate(year = 2023)
 
-# Step 1. load the dataset ####
-load("/Users/fdzul/Dropbox/hotspots_2023/8.RData/denmex.RData")
 
 # Step 2. extract the locality ####
 x <- rgeomex::extract_ageb(locality = c("Guadalajara", "Zapopan", 
                                         "Tlaquepaque", "Tonalá"), 
                            cve_edo = "14")
 
-
 # Step 3. cases by AGEB ####
 z <- denhotspots::point_to_polygons(x = xy,
                                     y = x$ageb,
                                     ids = names(x$ageb)[-10],
-                                    time = ANO,
-                                    coords = c("long", "lat"),
+                                    time = year,
+                                    coords = c("Longitude", "Latitude"),
                                     crs = 4326,
                                     dis = "DENV") 
 
